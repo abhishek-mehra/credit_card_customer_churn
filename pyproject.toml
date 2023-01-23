@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "credit-card-customer-churn"
+version = "0.1.0"
+description = ""
+authors = ["Abhishek Mehra <me.abhishek18@gmail.com>"]
+readme = "README.md"
+packages = [{include = "credit_card_customer_churn"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^1.5.3"
+numpy = "^1.24.1"
+xgboost = "^1.7.3"
+seaborn = "^0.12.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
