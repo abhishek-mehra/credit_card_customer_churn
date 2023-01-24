@@ -30,7 +30,7 @@ Q. What steps can be taken to make the customers stay with credit card services.
 
 After importing the dataset, I performed exploratory data analysis using Pandas functions such as head and summary to get an overview of the data frame.
 
-Performing statistical analysis I observed the profiles of the customers. This included their ages, gender, education level, marital status, income category, and credit card category. 
+Performing statistical analysis I observed the profiles of the customers. This included their ages, gender, education level, marital status, income category, and credit card category.
 
 ![Categorical!](./Images/Capture.jpg)
 
@@ -80,16 +80,16 @@ Further I will utilise machine learning models to predict the label class. And w
 #### I Created Functions to simplify my repeated tasks. I created functions for :
 
 
- 1. Category data type conversion,  
- 
- 2. Training-validation split,  
- 
- 3. Stratified Cross validation,  
-  
- 4. Model training and Metrics, 
- 
- 5. Removing outliers,  
- 
+ 1. Category data type conversion,
+
+ 2. Training-validation split,
+
+ 3. Stratified Cross validation,
+
+ 4. Model training and Metrics,
+
+ 5. Removing outliers,
+
  6. Standard Scaler
 
   This would help me to call the function iterativey and perform experiments to improve on my machine learning models.
@@ -97,8 +97,8 @@ Further I will utilise machine learning models to predict the label class. And w
 
 #### Best base model based on train - Train-Validation split.
 
-I trained multiple RandomForestClassifier models on training data i.e 80% of the whole dataset. 
-to maintain the original ratio of the samples in the target class stratified the dataset. Since the target class is imbalanced stratify will provide the same percentage in the split dataset. 
+I trained multiple RandomForestClassifier models on training data i.e 80% of the whole dataset.
+to maintain the original ratio of the samples in the target class stratified the dataset. Since the target class is imbalanced stratify will provide the same percentage in the split dataset.
 
 ![base mode train test split!](./Images/base%20model%20train%20test%20split.JPG)
 
@@ -124,7 +124,7 @@ Further I will perform modifications to improve my model.
 
 Outliers affect the the machine learning . I removed the outliers from the numerial features with 1.5 times the Inter quartile range. There was no effect in the model ouputs. I decided to keep the oultier since they provide key insights to the training.
 
-##### 2. Standard Scalar 
+##### 2. Standard Scalar
 
 I used a standard scaler on the numerical feature. This is done to ensure that the numerical values are consistent. It removes the scale of the various features being measured and places all values on an equal scale. This will allow the model to gain more insights from the data.
 
@@ -148,7 +148,7 @@ I combined feature engineering and Standard Scalar transformation into a functio
 
 #### Selecting the best model out of ADABoost, Random forest and XGBoost classifier
 
-XGBoost performed better than the rest of the models. 
+XGBoost performed better than the rest of the models.
 
 ![three classifier!](./Images/Three%20classifiers.JPG)
 
@@ -168,7 +168,7 @@ This determines how fast or how slow our model learns from the past errors. Slow
 
 ##### Controlling overfitting
 
-###### Depth of tree - 
+###### Depth of tree -
 
 Greater the depth of the tree more is its complexity and hence more are the chances of its overfiting
 By reducing the number of trees improves the scores here.
@@ -208,7 +208,7 @@ Important features
 - Since the target label is imbalanced, stratifying the target label in order to maintain the ratio of postives and negatives while calculating metrics.
 
 
-XGboost is the best performing model amongst random forest and ada. Xgboost can perform better with varying parameters 
+XGboost is the best performing model amongst random forest and ada. Xgboost can perform better with varying parameters
 
 
 - learning rate - slow learning rate makes the model to take small steps in models weights, hence learning more details. My model performed better with lesser learning rate.
@@ -233,11 +233,3 @@ We can  control overfitting by  increasing randomness in the data.
 Since the target class in imbalanced, xgboost provides a hyperparameter scale_pos_weight- we will provide the target class ratio of postives to negatives to the model.
 
 This will in turn tell the model to pay extra attention to the class with less frequnecy, so that model is able to predict the class with less frequncy better
-
-
-
-
-
-
-
-

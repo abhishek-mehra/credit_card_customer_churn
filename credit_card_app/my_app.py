@@ -181,19 +181,19 @@ def ttsplit(df2, label_col_name='Attrition_Flag', test_size=0.2):
 
 with header:
     st.title('Credit Card Churn Classifier')
-    
+
 
     st.markdown("""
-        A bank manager has a dataset of 10,000 customers with 18 features to predict 
-        which customers will leave their credit card services. The goal is to proactively 
-        improve services to prevent customer attrition or churn, which occurs when customers 
-        stop doing business due to various factors like poor customer service or a 
+        A bank manager has a dataset of 10,000 customers with 18 features to predict
+        which customers will leave their credit card services. The goal is to proactively
+        improve services to prevent customer attrition or churn, which occurs when customers
+        stop doing business due to various factors like poor customer service or a
         better offer from a competitor. By identifying patterns in this data,
         the bank manager aims to predict and retain customers at risk of leaving.
         """)
 
     st.markdown("""
-    The application allows users to select various parameters for training a machine learning model, 
+    The application allows users to select various parameters for training a machine learning model,
     with the goal of accurately identifying customers who are at risk of churning.
     """)
 
@@ -213,10 +213,10 @@ with header:
     with header.expander('Know more about the dataset'):
         st.markdown("""The dataset contains information about the customer,
         including their age, gender, income bracket, and credit card characteristics
-        like their total revolving debt, credit limit, months of inactivity, and open to buy etc. 
-        The dependent variable is attrition which tells us whether the customer is still associated with the 
+        like their total revolving debt, credit limit, months of inactivity, and open to buy etc.
+        The dependent variable is attrition which tells us whether the customer is still associated with the
         services or has left the credit card service.""")
-        
+
 
         st.dataframe(credit_card_data)
 
@@ -238,8 +238,8 @@ def fi(model):
 with eda:
     st.header('Exploratory Data analysis')
 
-    
-        
+
+
 
     with eda.expander('See the visualisations'):
 
@@ -285,11 +285,11 @@ with data_preparation:
 
     with data_preparation.expander("Know more about data preparation"):
         st.markdown("""
-        Adding a new feature to a machine learning model can improve performance. 
-        Here we will add 'average transaction' feature- that is calculated as : 
+        Adding a new feature to a machine learning model can improve performance.
+        Here we will add 'average transaction' feature- that is calculated as :
         Total transactions amount/ Number of transactions
-        
-        
+
+
         """)
 
         st.markdown(
@@ -408,19 +408,19 @@ with machine_learning:
         st.write(outputs.head())
 
         st.markdown("""
-         Bias is the amount that a model’s prediction differs from the target value, compared to the training data. 
+         Bias is the amount that a model’s prediction differs from the target value, compared to the training data.
          Bias error results from simplifying the assumptions used in a model so the target functions are easier to approximate.
 
-        Variance is a measure of how much the predictions of a model would change if different training data was used. 
-        A model with high variance pays too much attention to the training data, 
+        Variance is a measure of how much the predictions of a model would change if different training data was used.
+        A model with high variance pays too much attention to the training data,
         which results in poor performance on new or unseen data.
-        
+
         """)
 
         st.subheader('Classification Report on Hold out set')
         st.write(classification_report_output)
         st.write("""A high recall value  means that
-         a large proportion of customers who actually churned were correctly identified by the model, leading to a low number of false negatives. 
+         a large proportion of customers who actually churned were correctly identified by the model, leading to a low number of false negatives.
          A higher recall value is essential in identifying potential customers who may churn,
           as retaining existing customers is more cost-effective than acquiring new ones.
          """)
@@ -430,7 +430,7 @@ with machine_learning:
         without considering the number of samples in each class, while weighted average takes into account the number
         of samples in each class when calculating the average performance metric,
         giving more weight to the classes with more samples.
-         
+
          """)
 
         st.subheader(
@@ -441,10 +441,10 @@ with machine_learning:
         st.markdown("""
         Error Analysis - I will study the mistakes made by the model in order to improve its performance.
         I will Compare the predictions of model to true labels, and identify patterns in errors. The goal of this error analysis
-         is to identify areas for improvement in the model's architecture, the training data, or the features used, 
+         is to identify areas for improvement in the model's architecture, the training data, or the features used,
         so that the overall accuracy of the model can be increased and the model can be made more robust to new, unseen data.
-        
-        
+
+
         """)
         st.subheader('Customers falsely identified as churned  by the model.')
         st.write(fp_df)
@@ -457,6 +457,6 @@ with machine_learning:
         st.pyplot(fig)
         st.markdown("""
         The graph shows the input features that are most influential in determining the output or prediction of the model.
-        
+
         """)
         #
