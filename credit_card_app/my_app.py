@@ -15,6 +15,10 @@ from sklearn.model_selection import StratifiedKFold, train_test_split
 from sklearn.preprocessing import StandardScaler
 from xgboost import XGBClassifier
 
+import os
+
+current_dir = os.path.dirname(__file__)
+
 RANDOM_STATE = 1
 
 # multiple containers to hold differnt sub sections
@@ -23,6 +27,7 @@ dataset = st.container()
 eda = st.container()
 data_preparation = st.container()
 machine_learning = st.container()
+inference_mode = st.container()
 
 
 # Helper FUNCTIONS
@@ -204,22 +209,25 @@ with header:
     #     the bank manager aims to predict and retain customers at risk of leaving.
     #     """)
 
-    st.image(image='./images/Customer-Churn.png',
-             caption='Posted In:Article,  CXAuthor: Uthaman Bakthikrishnan')
-
+    image1_fp= os.path.join(current_dir,'.','images/Customer-Churn.png')
+    st.image(image=image1_fp,
+             caption="""Posted In: https: // www.cleartouch. in /category/article ;
+             Author: Uthaman Bakthikrishnan""")
 
     st.subheader("The problem")
-    st.markdown("Did you know that the average credit card company loses 20% of its customers every year due to churn?")
+    st.markdown(
+        "The average credit card company loses 20% of its customers every year due to churn?")
     st.markdown(""" High churn rates can be costly for companies, resulting in a loss of revenue and increased marketing and acquisition costs to replace lost customers.
 """)
     st.subheader("Goal")
-    st.image(image='./images/flow-chart.png')
-    st.markdown("""
-    Simply upload your customer data, and my machine learning model will identify which customers are most likely to churn.
-    With this information, you can take proactive steps to retain those customers and improve your bottom line.
-    OR you can choose my dataset to see the application working
+    image2_fp= os.path.join(current_dir,'.','images/Customer-Churn.png')
+    st.image(image=image2_fp)
+#     st.markdown("""
+#     Simply upload your customer data, and my machine learning model will identify which customers are most likely to churn.
+#     With this information, you can take proactive steps to retain those customers and improve your bottom line.
+#     OR you can choose my dataset to see the application working
 
-""")
+# """)
 
     # st.markdown("""
     # The application allows users to select various parameters for training a machine learning model,
@@ -241,8 +249,6 @@ with header:
 
     # with header.expander('Know more about the dataset'):
 
-
-
     # st.markdown("""
     # A bank manager has a dataset of 10,000 customers with 18 features to predict
     # which customers will leave their credit card services. The goal is to proactively
@@ -259,7 +265,7 @@ with header:
     # services or has left the credit card service.""")
 
     st.subheader("The dataset")
-    st.file_uploader(label='Upload your data file')
+    st.file_uploader(label='Upload your training data file')
     st.text("OR")
 
     if st.button("Use existing dataset"):
@@ -268,8 +274,6 @@ with header:
     - 10000 samples
     - 18 features-age, gender, credit limit etc
     """)
-
-
 
 
 # with eda:
@@ -424,7 +428,7 @@ with machine_learning:
             data=result_test_dic['classification']).transpose()
 
         classification_report_output = classification_report_output.rename(
-            index={'0': 'Existing Customer', '1': 'Attrited Customer'})
+            index={'1': 'Existing Customer', '0': 'Attrited Customer'})
 
         classification_report_output = classification_report_output.round(3)
 
@@ -442,56 +446,99 @@ with machine_learning:
         # showing the ouputs
         st.write(outputs.head())
 
-        st.markdown("""
-         Bias is the amount that a model’s prediction differs from the target value, compared to the training data.
-         Bias error results from simplifying the assumptions used in a model so the target functions are easier to approximate.
+        # st.markdown("""
+        #  Bias is the amount that a model’s prediction differs from the target value, compared to the training data.
+        #  Bias error results from simplifying the assumptions used in a model so the target functions are easier to approximate.
 
-        Variance is a measure of how much the predictions of a model would change if different training data was used.
-        A model with high variance pays too much attention to the training data,
-        which results in poor performance on new or unseen data.
+        # Variance is a measure of how much the predictions of a model would change if different training data was used.
+        # A model with high variance pays too much attention to the training data,
+        # which results in poor performance on new or unseen data.
 
-        """)
+        # """)
 
         st.subheader('Classification Report on Hold out set')
         st.write(classification_report_output)
-        st.write("""A high recall value  means that
-         a large proportion of customers who actually churned were correctly identified by the model, leading to a low number of false negatives.
-         A higher recall value is essential in identifying potential customers who may churn,
-          as retaining existing customers is more cost-effective than acquiring new ones.
-         """)
+        # st.write("""A high recall value  means that
+        #  a large proportion of customers who actually churned were correctly identified by the model, leading to a low number of false negatives.
+        #  A higher recall value is essential in identifying potential customers who may churn,
+        #   as retaining existing customers is more cost-effective than acquiring new ones.
+        #  """)
 
-        st.markdown("""
-        Macro average is a way to calculate the average performance metric of a model across different classes
-        without considering the number of samples in each class, while weighted average takes into account the number
-        of samples in each class when calculating the average performance metric,
-        giving more weight to the classes with more samples.
+        # st.markdown("""
+        # Macro average is a way to calculate the average performance metric of a model across different classes
+        # without considering the number of samples in each class, while weighted average takes into account the number
+        # of samples in each class when calculating the average performance metric,
+        # giving more weight to the classes with more samples.
 
-         """)
+        #  """)
 
-        st.subheader(
-            'Mean ROC curve on Cross validated dataset')
-        st.pyplot(fig)
+        # st.subheader(
+        #     'Mean ROC curve on Cross validated dataset')
+        # st.pyplot(fig)
 
-        st.header('Miss-classified data ')
-        st.markdown("""
-        Error Analysis -
-         The goal of this error analysis
-         is to identify areas for improvement in the model's architecture, the training data, or the features used,
-        so that the overall accuracy of the model can be increased and the model can be made more robust to new, unseen data.
+        # st.header('Miss-classified data ')
+        # # st.markdown("""
+        # # # Error Analysis -
+        # # #  The goal of this error analysis
+        # # #  is to identify areas for improvement in the model's architecture, the training data, or the features used,
+        # # # so that the overall accuracy of the model can be increased and the model can be made more robust to new, unseen data.
 
 
-        """)
-        st.subheader('Customers falsely identified as churned  by the model.')
-        st.write(fp_df)
+        # # """)
+        # st.subheader('Customers falsely identified as churned  by the model.')
+        # st.write(fp_df)
 
-        st.subheader(
-            'Customers falsely identified as existing customer by the model')
-        st.write(fn_df)
+        # st.subheader(
+        #     'Customers falsely identified as existing customer by the model')
+        # st.write(fn_df)
 
-        fig = fi(model)
-        st.pyplot(fig)
-        st.markdown("""
-        The graph shows the input features that are most influential in determining the output or prediction of the model.
+        # fig = fi(model)
+        # st.pyplot(fig)
+        # st.markdown("""
+        # The graph shows the input features that are most influential in determining the output or prediction of the model.
 
-        """)
-        #
+        # """)
+
+
+
+
+
+
+
+
+
+with inference_mode:
+
+
+
+
+
+    uploaded_file = st.file_uploader('Upload your data for inference')
+    if uploaded_file is not None:
+        df_inference = pd.read_csv(uploaded_file)
+        st.write(df_inference)
+
+
+
+
+    if st.button('Submit for inference'):
+        # st.write(print(type(df_inference)))
+
+        df_inference.drop(['Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1',
+                           'Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2',
+                           'CLIENTNUM'], axis=1,
+                          inplace=True)
+        cc_inf = cate_type(df_inference)
+        X_inf = cc_inf.drop(columns = 'Attrition_Flag')
+
+
+
+
+
+        X_train = cc_df.drop(columns = 'Attrition_Flag')
+        y_train = cc_df['Attrition_Flag']
+        model = RandomForestClassifier()
+        model.fit(X_train,y_train)
+        y_inf = model.predict(X_inf)
+        y_inf_series = pd.Series(y_inf)
+        st.write(y_inf_series.replace({1:"Will not churn",0:"will churn"}))
