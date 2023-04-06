@@ -220,7 +220,7 @@ with header:
     st.markdown(""" High churn rates can be costly for companies, resulting in a loss of revenue and increased marketing and acquisition costs to replace lost customers.
 """)
     st.subheader("Goal")
-    image2_fp= os.path.join(current_dir,'.','images/Customer-Churn.png')
+    image2_fp= os.path.join(current_dir,'.','images/flow-chart.png')
     st.image(image=image2_fp)
 #     st.markdown("""
 #     Simply upload your customer data, and my machine learning model will identify which customers are most likely to churn.
