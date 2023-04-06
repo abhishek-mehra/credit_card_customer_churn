@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 from typing import List
 
 import matplotlib.pyplot as plt
@@ -39,8 +39,8 @@ def cate_type(df) -> pd.DataFrame:
 
 
 # Cross Validation
-@st.cache
-def cv_score_model(df, model, folds=5, label_col_name="Attrition_Flag"):
+@st.cache_data
+def cv_score_model(df, _model, folds=5, label_col_name="Attrition_Flag"):
     y = df[label_col_name].values  # dataframe to numpy array
     # dataframe to numpy array
     x = df.drop(label_col_name, axis=1, inplace=False).values
@@ -124,17 +124,30 @@ def train_eval(model, X_train, X_test, y_train, y_test):
 
     return output_dic
 
+# feature importance function
+
+
+def fi(model):
+    fi_df = pd.DataFrame({'Features': model.feature_names_in_,
+                          'Importance': model.feature_importances_})
+    fi_df.sort_values(by='Importance', ascending=False, inplace=True)
+    fig3 = plt.figure(figsize=(10, 4))
+    plt.xticks(rotation='vertical')
+    sns.barplot(data=fi_df, x=fi_df['Features'], y=fi_df['Importance'])
+
+    return fig3
+
 # adding a new feature
 
 
-@st.cache
+@st.cache_data
 def new_feat(df):
     df['avg_trans'] = df['Total_Trans_Amt']/df['Total_Trans_Ct']
     return df
 
 
 # scaling
-@st.cache
+@st.cache_data
 def stan_scal(df):
     # Dropping label column
     ndf = df.drop(['Attrition_Flag'], axis=1, inplace=False)
@@ -167,7 +180,7 @@ def stan_scal(df):
 
 
 # train test split
-@st.cache
+@st.cache_data
 def ttsplit(df2, label_col_name='Attrition_Flag', test_size=0.2):
     y = df2[label_col_name]
     df2 = df2.drop(label_col_name, axis=1, inplace=False)
@@ -182,20 +195,36 @@ def ttsplit(df2, label_col_name='Attrition_Flag', test_size=0.2):
 with header:
     st.title('Credit Card Churn Classifier')
 
+    # st.markdown("""
+    #     A bank manager has a dataset of 10,000 customers with 18 features to predict
+    #     which customers will leave their credit card services. The goal is to proactively
+    #     improve services to prevent customer attrition or churn, which occurs when customers
+    #     stop doing business due to various factors like poor customer service or a
+    #     better offer from a competitor. By identifying patterns in this data,
+    #     the bank manager aims to predict and retain customers at risk of leaving.
+    #     """)
 
-    st.markdown("""
-        A bank manager has a dataset of 10,000 customers with 18 features to predict
-        which customers will leave their credit card services. The goal is to proactively
-        improve services to prevent customer attrition or churn, which occurs when customers
-        stop doing business due to various factors like poor customer service or a
-        better offer from a competitor. By identifying patterns in this data,
-        the bank manager aims to predict and retain customers at risk of leaving.
-        """)
+    st.image(image='./images/Customer-Churn.png',
+             caption='Posted In:Article,  CXAuthor: Uthaman Bakthikrishnan')
 
+
+    st.subheader("The problem")
+    st.markdown("Did you know that the average credit card company loses 20% of its customers every year due to churn?")
+    st.markdown(""" High churn rates can be costly for companies, resulting in a loss of revenue and increased marketing and acquisition costs to replace lost customers.
+""")
+    st.subheader("Goal")
+    st.image(image='./images/flow-chart.png')
     st.markdown("""
-    The application allows users to select various parameters for training a machine learning model,
-    with the goal of accurately identifying customers who are at risk of churning.
-    """)
+    Simply upload your customer data, and my machine learning model will identify which customers are most likely to churn.
+    With this information, you can take proactive steps to retain those customers and improve your bottom line.
+    OR you can choose my dataset to see the application working
+
+""")
+
+    # st.markdown("""
+    # The application allows users to select various parameters for training a machine learning model,
+    # with the goal of accurately identifying customers who are at risk of churning.
+    # """)
 
     # input data
 
@@ -210,116 +239,122 @@ with header:
     # category conversion
     cc_df = cate_type(credit_card_data)
 
-    with header.expander('Know more about the dataset'):
-        st.markdown("""The dataset contains information about the customer,
-        including their age, gender, income bracket, and credit card characteristics
-        like their total revolving debt, credit limit, months of inactivity, and open to buy etc.
-        The dependent variable is attrition which tells us whether the customer is still associated with the
-        services or has left the credit card service.""")
+    # with header.expander('Know more about the dataset'):
 
 
+
+    # st.markdown("""
+    # A bank manager has a dataset of 10,000 customers with 18 features to predict
+    # which customers will leave their credit card services. The goal is to proactively
+    # improve services to prevent customer attrition or churn, which occurs when customers
+    # stop doing business due to various factors like poor customer service or a
+    # better offer from a competitor. By identifying patterns in this data,
+    # the bank manager aims to predict and retain customers at risk of leaving.
+    # """)
+
+    # st.markdown("""The dataset contains information about the customer,
+    # including their age, gender, income bracket, and credit card characteristics
+    # like their total revolving debt, credit limit, months of inactivity, and open to buy etc.
+    # The dependent variable is attrition which tells us whether the customer is still associated with the
+    # services or has left the credit card service.""")
+
+    st.subheader("The dataset")
+    st.file_uploader(label='Upload your data file')
+    st.text("OR")
+
+    if st.button("Use existing dataset"):
         st.dataframe(credit_card_data)
-
-
-# feature importance function
-
-
-def fi(model):
-    fi_df = pd.DataFrame({'Features': model.feature_names_in_,
-                          'Importance': model.feature_importances_})
-    fi_df.sort_values(by='Importance', ascending=False, inplace=True)
-    fig3 = plt.figure(figsize=(10, 4))
-    plt.xticks(rotation='vertical')
-    sns.barplot(data=fi_df, x=fi_df['Features'], y=fi_df['Importance'])
-
-    return fig3
-
-
-with eda:
-    st.header('Exploratory Data analysis')
+        st.markdown(""" The dataset
+    - 10000 samples
+    - 18 features-age, gender, credit limit etc
+    """)
 
 
 
 
-    with eda.expander('See the visualisations'):
+# with eda:
+#     st.header('Exploratory Data analysis')
 
-        st.markdown('I conducted additional analysis on the dataset attributes like transaction amounts, revolving balance, total transaction counts. The data visualizations reveal several significant observations.')
+#         # with eda.expander('See the visualisations'):
 
-        fig = plt.figure(figsize=(10, 4))
-        sns.scatterplot(data=credit_card_data, x='Total_Trans_Amt',
-                        y='Total_Trans_Ct', hue='Attrition_Flag')
-        st.pyplot(fig)
+#     st.markdown('I conducted additional analysis on the dataset attributes like transaction amounts, revolving balance, total transaction counts. The data visualizations reveal several significant observations.')
 
-        st.markdown("Customers who engage in higher-value transactions and have a higher frequency of transactions have a lower likelihood of leaving the company compared to those who have lower transaction values and fewer transactions.")
-        fig2 = plt.figure(figsize=(10, 4))
-        sns.scatterplot(data=credit_card_data, x='Avg_Utilization_Ratio',
-                        y='Total_Revolving_Bal', hue='Attrition_Flag')
-        st.pyplot(fig2)
+#     fig = plt.figure(figsize=(10, 4))
+#     sns.scatterplot(data=credit_card_data, x='Total_Trans_Amt',
+#                     y='Total_Trans_Ct', hue='Attrition_Flag')
+#     st.pyplot(fig)
 
-        st.markdown('The majority of clients who leave the company are concentrated in the lower usage bracket, where credit utilization is minimal. This suggests that clients who utilize the service less frequently are more likely to discontinue their use.')
+#     st.markdown("Customers who engage in higher-value transactions and have a higher frequency of transactions have a lower likelihood of leaving the company compared to those who have lower transaction values and fewer transactions.")
+#     fig2 = plt.figure(figsize=(10, 4))
+#     sns.scatterplot(data=credit_card_data, x='Avg_Utilization_Ratio',
+#                     y='Total_Revolving_Bal', hue='Attrition_Flag')
+#     st.pyplot(fig2)
 
-# 1. asking user for feature engineering options :(a) create a new feature  (b) scale the features
+#     st.markdown('The majority of clients who leave the company are concentrated in the lower usage bracket, where credit utilization is minimal. This suggests that clients who utilize the service less frequently are more likely to discontinue their use.')
 
-# 2. asking user for Model selection: (a) Random Forest (b) XGBoost
+#     # 1. asking user for feature engineering options :(a) create a new feature  (b) scale the features
 
-# 3. asking user for parameters selection: (a)number of estimators (b) max depth
+#     # 2. asking user for Model selection: (a) Random Forest (b) XGBoost
 
-
-# replacing label class as 0 and 1.
-    credit_card_data = credit_card_data.replace(
-        {'Existing Customer': 0, 'Attrited Customer': 1})
+#     # 3. asking user for parameters selection: (a)number of estimators (b) max depth
 
 
-def exec_data_prep(cc_df, feature_selection_ouput, scale_selection_ouput):
-    if feature_selection_ouput == 'Yes':
-        cc_df = new_feat(cc_df)
-
-    if scale_selection_ouput == 'Yes':
-        cc_df = stan_scal(cc_df)
-
-    return cc_df
+#     # replacing label class as 0 and 1.
+#     credit_card_data = credit_card_data.replace(
+#         {'Existing Customer': 0, 'Attrited Customer': 1})
 
 
-with data_preparation:
-    st.subheader('Data Preparation Options')
+#     def exec_data_prep(cc_df, feature_selection_ouput, scale_selection_ouput):
+#         if feature_selection_ouput == 'Yes':
+#             cc_df = new_feat(cc_df)
 
-    with data_preparation.expander("Know more about data preparation"):
-        st.markdown("""
-        Adding a new feature to a machine learning model can improve performance.
-        Here we will add 'average transaction' feature- that is calculated as :
-        Total transactions amount/ Number of transactions
+#         if scale_selection_ouput == 'Yes':
+#             cc_df = stan_scal(cc_df)
+
+#         return cc_df
 
 
-        """)
+# with data_preparation:
+#     # st.subheader('Data Preparation Options')
 
-        st.markdown(
-            """Scale the features -  This Standardizes features by removing the mean and scaling to unit variance.
-        This helps to ensure that all features are on a similar scale and have similar properties,
-        which can improve the performance of certain machine learning algorithms.
-        """)
+#     # with data_preparation.expander("Know more about data preparation"):
+#     st.subheader("Feature Engineering")
+#     st.markdown("""
+#     Adding a new feature to a machine learning model can improve performance.
+#     Here we will add 'average transaction' feature- that is calculated as :
+#     Total transactions amount/ Number of transactions
 
-    # (a)asking user for feature engineering options :(a) create a new feature
-    # st.markdown('Adding this feature will give more insights to machine learning model')
-    # st.markdown(
-    # 'Average transaction amount = Total transaction amount/ Total transaction count')
 
-    form_data_prep = st.form(key='data_prep')
+#     """)
 
-    feature_selection_ouput = form_data_prep.selectbox(
-        'Do you want to add a new feature, average transaction amount.', ('Yes', 'No'))
+#     st.markdown(
+#         """Scale the features -  This Standardizes features by removing the mean and scaling to unit variance.
+#     This helps to ensure that all features are on a similar scale and have similar properties,
+#     which can improve the performance of certain machine learning algorithms.
+#     """)
 
-    # (b) scale the features
+#     # (a)asking user for feature engineering options :(a) create a new feature
+#     # st.markdown('Adding this feature will give more insights to machine learning model')
+#     # st.markdown(
+#     # 'Average transaction amount = Total transaction amount/ Total transaction count')
 
-    scale_selection_ouput = form_data_prep.selectbox(
-        'Do you want to scale the numerical features?', ('Yes', 'No'))
+#     form_data_prep = st.form(key='data_prep')
 
-    data_prep_button_pressed = form_data_prep.form_submit_button(
-        "Click for data prep")
+#     feature_selection_ouput = form_data_prep.selectbox(
+#         'Do you want to add a new feature, average transaction amount.', ('Yes', 'No'))
 
-    if data_prep_button_pressed:
-        cc_df = exec_data_prep(
-            cc_df, feature_selection_ouput, scale_selection_ouput)
-        st.write("Data sample:", cc_df.head())
+#     # (b) scale the features
+
+#     scale_selection_ouput = form_data_prep.selectbox(
+#         'Do you want to scale the numerical features?', ('Yes', 'No'))
+
+#     data_prep_button_pressed = form_data_prep.form_submit_button(
+#         "Click for data prep")
+
+#     if data_prep_button_pressed:
+#         cc_df = exec_data_prep(
+#             cc_df, feature_selection_ouput, scale_selection_ouput)
+#         st.write("Data sample:", cc_df.head())
 
 with machine_learning:
     machine_learning.header('Machine learning: Predicting Attrition')
@@ -439,8 +474,8 @@ with machine_learning:
 
         st.header('Miss-classified data ')
         st.markdown("""
-        Error Analysis - I will study the mistakes made by the model in order to improve its performance.
-        I will Compare the predictions of model to true labels, and identify patterns in errors. The goal of this error analysis
+        Error Analysis -
+         The goal of this error analysis
          is to identify areas for improvement in the model's architecture, the training data, or the features used,
         so that the overall accuracy of the model can be increased and the model can be made more robust to new, unseen data.
 
@@ -450,7 +485,7 @@ with machine_learning:
         st.write(fp_df)
 
         st.subheader(
-            'Customers falsely identified as existing cutomer by the model')
+            'Customers falsely identified as existing customer by the model')
         st.write(fn_df)
 
         fig = fi(model)
