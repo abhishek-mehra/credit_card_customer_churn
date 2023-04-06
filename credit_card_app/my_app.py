@@ -204,7 +204,7 @@ with header:
     #     the bank manager aims to predict and retain customers at risk of leaving.
     #     """)
 
-    st.image(image='../images/Customer-Churn.png',
+    st.image(image='./images/Customer-Churn.png',
              caption='Posted In:Article,  CXAuthor: Uthaman Bakthikrishnan')
 
 
@@ -213,7 +213,7 @@ with header:
     st.markdown(""" High churn rates can be costly for companies, resulting in a loss of revenue and increased marketing and acquisition costs to replace lost customers.
 """)
     st.subheader("Goal")
-    st.image(image='../images/flow-chart.png')
+    st.image(image='./images/flow-chart.png')
     st.markdown("""
     Simply upload your customer data, and my machine learning model will identify which customers are most likely to churn.
     With this information, you can take proactive steps to retain those customers and improve your bottom line.
