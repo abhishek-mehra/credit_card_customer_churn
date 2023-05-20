@@ -2,7 +2,7 @@
 
 ## The dataset
 
-The dataset is about a bank's credit card services, which customers are discontinuing. This was an exciting project for me because I have had a credit card for a long and this is a good business challenge and an opportunity to learn more about credit cards.
+The dataset is about a bank's credit card services, which customers are discontinuing. This was an exciting project for me because I have had a credit card for a long and this is a good business challenge and an opportunity to apply machine learning skills to a real world bussines problem
 
 The dataset contains information about the customer, including their age, gender, income bracket, and credit card characteristics like their total revolving debt, credit limit, months of inactivity, and open to buy etc. The dependent variable is attrition which tells us whether the customer is still associated with the services or has left the credit card service.
 
